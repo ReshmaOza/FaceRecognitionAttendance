@@ -84,6 +84,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        missingDimensionStrategy 'react-native-camera', 'general'
     }
     signingConfigs {
         debug {
@@ -105,11 +106,30 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    sourceSets {
+        main {
+            java {
+                srcDirs = ['src/main/java']
+            }
+        }
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
 }
 
 dependencies {
-    // The version of react-native is set by the React Native Gradle Plugin
+    // Remove any Kotlin dependencies
     implementation("com.facebook.react:react-android")
+    implementation project(':react-native-camera')
+    implementation project(':react-native-safe-area-context')
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
